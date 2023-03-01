@@ -1236,10 +1236,10 @@ bool L1Menu2016::Loop()
         continue;
     }
 
-    if (i % 1000 == 0)
-    {
-      std::cout << "Processed " << i << " events." << std::endl;
-    }
+    // if (i % 1000 == 0)
+    // {
+    //   std::cout << "Processed " << i << " events." << std::endl;
+    // }
 
     //Use Final decision by default, unless for PlotLS
     //if (l1unpackuGT != NULL && !l1unpackuGT->GetuGTDecision("L1_ZeroBias", L1Config["doPlotLS"]))
@@ -1507,6 +1507,12 @@ bool L1Menu2016::RunMenu(float pu, bool reweight_2018,  bool reweight_Run3, bool
     }
     else
       IsFired = CheckL1Seed(seed.first);
+
+    if (IsFired && seed.first == "L1_DoubleJet_80_30_Mass_Min420_Mu8")
+      {
+        cout << event_->event << " fired for seed L1_DoubleJet_80_30_Mass_Min420_Mu8 ---> ";
+        cout << L1Event.dijetPt1 << " " << L1Event.dijetPt2 << " " << DiJetMass(80, 30, false) << " " << L1Event.MuOpenPt << endl;
+      }
 
     for(auto col : ColumnMap)
     {
