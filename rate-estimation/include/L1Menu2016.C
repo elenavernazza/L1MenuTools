@@ -1179,6 +1179,10 @@ bool L1Menu2016::Loop()
   nLumi.clear();
   bool skipLS = false;
 
+  cout << "Creating output file"  << endl;
+  TString OutFileName = "/afs/cern.ch/user/e/evernazz/L1Studies/RateComputation/CMSSW_13_0_0_pre2/src/L1Trigger/L1TNtuples/FiredL1Events365.txt";
+  int ret = system("touch "+OutFileName);
+
   while(true)
   {
     i++;
@@ -1281,7 +1285,7 @@ bool L1Menu2016::Loop()
     nZeroBiasevents_PUrange++;
 
     GetL1Event();
-    RunMenu(ev_pileup, reweight_2018, reweight_Run3, custom_weights);
+    RunMenu(ev_pileup, reweight_2018, reweight_Run3, custom_weights, OutFileName);
 
     if (L1Config["doPlotLS"])
       FillLumiSection(currentLumi);
@@ -1485,7 +1489,7 @@ bool L1Menu2016::CheckL1Seed(const std::string L1Seed)
 //         Name:  L1Menu2016::RunMenu
 //  Description:  
 // ===========================================================================
-bool L1Menu2016::RunMenu(float pu, bool reweight_2018,  bool reweight_Run3, bool custom_weights)
+bool L1Menu2016::RunMenu(float pu, bool reweight_2018,  bool reweight_Run3, bool custom_weights, TString OutFileName)
 {
   // Reweighting procedure: info about the pileup of the event passed as argument to the InsertInMenu and CheckCorrelation functions 
   // (defined in PreColumn)
@@ -1510,8 +1514,12 @@ bool L1Menu2016::RunMenu(float pu, bool reweight_2018,  bool reweight_Run3, bool
 
     if (IsFired && seed.first == "L1_DoubleJet_80_30_Mass_Min420_Mu8")
       {
-        cout << event_->event << " fired for seed L1_DoubleJet_80_30_Mass_Min420_Mu8 ---> ";
-        cout << L1Event.dijetPt1 << " " << L1Event.dijetPt2 << " " << DiJetMass(80, 30, false) << " " << L1Event.MuOpenPt << endl;
+        std::ofstream outfile;
+        outfile.open(OutFileName, std::ios_base::app);
+        cout << event_->event << " fired for L1_DoubleJet_80_30_Mass_Min420_Mu8" << endl;
+        outfile << to_string(event_->event) << " " << to_string(L1Event.dijetPt1) << " " << to_string(L1Event.dijetPt2) << " " \
+        << to_string(DiJetMass(80, 30, false)) << " " << to_string(L1Event.MuOpenPt) << endl;
+        outfile.close();
       }
 
     for(auto col : ColumnMap)

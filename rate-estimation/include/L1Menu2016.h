@@ -26,8 +26,8 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
-#include <iomanip>
 #include <fstream>
+#include <iomanip>
 #include <sstream>
 #include <functional>
 #include <ctype.h>
@@ -169,7 +169,7 @@ class L1Menu2016 : public L1AlgoFactory
   private:
     // ====================  METHODS       ===============================
     double CalScale(int nEvents_ = 0, int nBunches_ = 0, bool print=false);
-    bool RunMenu(float pu, bool reweight_2018, bool reweight_Run3, bool custom_weights);
+    bool RunMenu(float pu, bool reweight_2018, bool reweight_Run3, bool custom_weights, TString OutFileName);
     bool Fill2DCorrelations(const std::string &histname, std::set<std::string> &event) const;
     void CalLocalHT(float &HTTcut, bool withHF);
     void CalLocalHTM(float &HTMcut);
